@@ -1,1 +1,1 @@
-# nodejs-restful-interface
+# nodejs-RESTful-interface
