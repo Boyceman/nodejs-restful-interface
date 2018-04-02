@@ -15,6 +15,10 @@ export const codeTable = {
     code: 403,
     message: 'forbidden'
   },
+  409: {
+    code: 409,
+    message: 'conflict'
+  },
   500: {
     code: 500,
     message: 'server error'

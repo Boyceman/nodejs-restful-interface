@@ -14,7 +14,7 @@ export default class PG {
       const result = await connection.query(sql, value)
       return result
     } catch (err) {
-      // todo db disconnect
+      // todo db disconnect ps: log SMS
       console.log(err, 'err 99999')
     } finally {
       connection.release()
