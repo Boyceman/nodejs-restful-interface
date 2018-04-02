@@ -1,12 +1,5 @@
 export default function(result) {
-  let response = {}
-  if (typeof result === 'object') {
-    response = { ...codeTable[200], result }
-  }
-  if (typeof result === 'number') {
-    response = codeTable[result]
-  }
-  return response
+  return typeof result === 'object' ? { ...codeTable[200], result } : codeTable[result]
 }
 
 export const codeTable = {

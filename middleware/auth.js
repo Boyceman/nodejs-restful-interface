@@ -1,17 +1,21 @@
-import { codeTable } from '../controller/response'
+import response from '../controller/response'
 import fs from 'fs'
 import jwt from 'jsonwebtoken'
+import PG from '../db'
+import { hashMd5 } from '../utils/index'
 
 export default () => {
-  return async ({ request, originalUrl }, next) => {
-    await next()
-    if (whiteList.indexOf(originalUrl) < 0) {
-      const { header: { authentication } } = request
-      if (verifyToken(authentication)) {
-        // todo get data from DB
+  return async (ctx, next) => {
+    if (whiteList.indexOf(ctx.originalUrl) < 0) {
+      const { header: { authentication } } = ctx.request
+      const response = await verifyToken(authentication)
+      if (typeof response === 'boolean') {
+        await next()
       } else {
-        return codeTable[403]
+        ctx.body = response
       }
+    } else {
+      await next()
     }
   }
 }
@@ -22,11 +26,23 @@ export function genToken (info) {
   return { token }
 }
 
-export function verifyToken (token) {
+export async function verifyToken (token) {
   const cert = fs.readFileSync('private.key')
-  const decode = jwt.verify(token, cert)
-  // todo return true or false depending on got password by email from DB
-  return true
+  try {
+    const { email, password } = jwt.verify(token, cert)
+    const { rows } = await PG.read('user_auths', { 'identifier': email })
+    const md5pwd = rows[0].credential
+    if (md5pwd === hashMd5(password)) {
+      return true
+    }
+  } catch ({ name, message, ...others }) {
+    console.log(`${name}: ${message}`)
+    if (name === 'TokenExpiredError') {
+    }
+    if (name === 'JsonWebTokenError') {
+    }
+    return response(403)
+  }
 }
 
-const whiteList = ['/api/v1/usedr/register', '/api/v1/user/login']
+const whiteList = ['/api/v1/user/register', '/api/v1/user/login']
