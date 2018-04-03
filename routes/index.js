@@ -1,10 +1,12 @@
 import Router from 'koa-router'
-import userCtrl from '../controller/user'
+import UserCtrl from '../controller/user'
+import MediaCtrl from '../controller/media'
 
-const router = new Router()
+const router = new Router({ prefix: '/api/v1' })
 
-router.post('/api/v1/user/register', userCtrl.register)
-router.get('/api/v1/user/profile/:id', userCtrl.profile)
-
+router.post('/user/register', UserCtrl.register)
+router.post('/user/login', UserCtrl.login)
+router.get('/user/profile/:id', UserCtrl.profile)
+router.get('/media', MediaCtrl.list)
 
 export default router

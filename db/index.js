@@ -52,4 +52,11 @@ export default class PG {
     sql += `${field[0]} = ${idx[0]}`
     return this.helper(sql, value)
   }
+
+  static async readList (table, { limit, offset, orderBy }) {
+    const sql = `SELECT * FROM ${table} ORDER BY $1 DESC LIMIT $2 OFFSET $3`
+    const value = [orderBy, limit, offset]
+    // todo desc doesn't work
+    return this.helper(sql, value)
+  }
 }

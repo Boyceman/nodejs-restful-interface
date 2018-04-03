@@ -29,6 +29,26 @@ export default class UserController {
     }
   }
 
+  static async login (ctx) {
+    const { email, password } = ctx.request.body
+    if (email && password) {
+      const { rows } = await PG.read('user_auths', { 'identifier': email })
+      if (rows.length) {
+        const md5pwd = hashMd5(password)
+        if (md5pwd === rows[0].credential) {
+          let result = genToken({ email, password })
+          ctx.body = response(result)
+        } else {
+          ctx.body = response(204)
+        }
+      } else {
+        ctx.body = response(404)
+      }
+    } else {
+      ctx.body = response(400)
+    }
+  }
+
   static async profile (ctx) {
     const { params: { id } } = ctx
     let result = {}

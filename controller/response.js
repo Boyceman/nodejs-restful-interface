@@ -7,6 +7,10 @@ export const codeTable = {
     code: 200,
     message: 'success'
   },
+  204: {
+    code: 204,
+    message: 'wrong password'
+  },
   400: {
     code: 400,
     message: 'bad request'
@@ -14,6 +18,10 @@ export const codeTable = {
   403: {
     code: 403,
     message: 'forbidden'
+  },
+  404: {
+    code: 404,
+    message: 'not found'
   },
   409: {
     code: 409,
