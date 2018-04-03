@@ -7,18 +7,6 @@ import auth from './middleware/auth'
 const app = new Koa()
 const port = 5000
 
-// app.use(async (ctx, next) => {
-//   try {
-//     await next()
-//     const status = ctx.status || 404
-//     if (status === 404) {
-//       console.log(111)
-//     }
-//   } catch (err) {
-//     console.log(err)
-//   }
-// })
-
 app.use(logger())
   .use(bodyParser())
   .use(auth())
