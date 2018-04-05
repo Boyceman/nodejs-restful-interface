@@ -3,6 +3,10 @@ export default function(result) {
 }
 
 export const codeTable = {
+  0: {
+    code: 0,
+    message: 'empty result'
+  },
   200: {
     code: 200,
     message: 'success'

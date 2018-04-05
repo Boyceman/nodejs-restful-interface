@@ -14,6 +14,8 @@ export default class ContentController {
       })
       if (rows.length) {
         ctx.body = response(rows)
+      } else {
+        ctx.body = response(0)
       }
     } else {
       ctx.body = response(400)

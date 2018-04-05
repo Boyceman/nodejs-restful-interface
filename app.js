@@ -2,6 +2,7 @@ import Koa from 'koa'
 import router from './routes'
 import logger from 'koa-logger'
 import bodyParser from 'koa-bodyparser'
+import cors from 'koa2-cors'
 import auth from './middleware/auth'
 
 const app = new Koa()
@@ -9,6 +10,7 @@ const port = 5000
 
 app.use(logger())
   .use(bodyParser())
+  .use(cors())
   .use(auth())
   .use(router.routes())
   .use(router.allowedMethods())
