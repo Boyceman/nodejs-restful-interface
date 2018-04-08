@@ -7,8 +7,8 @@ import { hashMd5 } from '../utils/index'
 export default () => {
   return async (ctx, next) => {
     if (ctx.originalUrl.split('/')[1] === 'api' && whiteList.indexOf(ctx.originalUrl) < 0) {
-      const { header: { authorization } } = ctx.request
-      const response = await verifyToken(authorization)
+      const { header: { token } } = ctx.request
+      const response = await verifyToken(token)
       if (typeof response === 'boolean') {
         await next()
       } else {
