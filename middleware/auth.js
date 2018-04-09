@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken'
 import PG from '../db'
 import { hashMd5 } from '../utils/index'
 
+const cert = fs.readFileSync('private.key')
+
 export default () => {
   return async (ctx, next) => {
     if (ctx.originalUrl.split('/')[1] === 'api' && whiteList.indexOf(ctx.originalUrl) < 0) {
@@ -21,13 +23,11 @@ export default () => {
 }
 
 export function genToken (info) {
-  const cert = fs.readFileSync('private.key')
   const token = jwt.sign(info, cert, { expiresIn: '1h' })
   return { token }
 }
 
 export async function verifyToken (token) {
-  const cert = fs.readFileSync('private.key')
   try {
     const { email, password } = jwt.verify(token, cert)
     const { rows } = await PG.read('user_auths', { 'identifier': email })

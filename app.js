@@ -7,14 +7,10 @@ import auth from './middleware/auth'
 
 const app = new Koa()
 const port = 5000
-const corsConf = {
-  allowMethods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
-  allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'Token']
-}
 
 app.use(logger())
   .use(bodyParser())
-  .use(cors(corsConf))
+  .use(cors({ maxAge: 3600 }))
   .use(auth())
   .use(router.routes())
   .use(router.allowedMethods())

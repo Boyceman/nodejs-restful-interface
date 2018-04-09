@@ -1,0 +1,3 @@
+[submodule "www-fe"]
+	path = www-fe
+	url = git@github.com:Boyceman/www-fe.git
